@@ -152,6 +152,7 @@
 
   footer{ margin-top: 40px; font-size: 0.78rem; color: var(--ink-soft); text-align: center; }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -183,10 +184,7 @@
         <span class="status-pill status-live">Live</span>
       </div>
       <div class="item-detail">
-        <div class="item-detail-inner">
-          <p>A weather tool built for paragliding decisions rather than general forecasting &mdash; reading the sky for flyability. Built in React and TypeScript, originally prototyped with Lovable, now maintained on GitHub and deployed on Vercel.</p>
-          <p><a href="https://aloft.today" target="_blank" rel="noopener">aloft.today</a></p>
-        </div>
+        <div class="item-detail-inner" data-md="content/aloft.md"></div>
       </div>
     </div>
 
@@ -202,10 +200,7 @@
         <span class="status-pill status-soon">Forthcoming</span>
       </div>
       <div class="item-detail">
-        <div class="item-detail-inner">
-          <p>Why the standard solar-thermal model of lift breaks down at northern latitudes, and what's actually driving the air when the sun isn't doing the obvious work. Anchored to a real flight at Solbergåsen, Drammen, with the pilot's own log and photo used by permission.</p>
-          <p><em>Full piece coming when it's published &mdash; I'll link it here.</em></p>
-        </div>
+        <div class="item-detail-inner" data-md="content/thermals.md"></div>
       </div>
     </div>
 
@@ -221,16 +216,14 @@
         <span class="status-pill status-progress">In progress</span>
       </div>
       <div class="item-detail">
-        <div class="item-detail-inner">
-          <p>A working guide to ski mountaineering in the Greek mountains &mdash; part memoir, part practical notes, for anyone who only associates those peaks with summer hiking.</p>
-        </div>
+        <div class="item-detail-inner" data-md="content/skimo.md"></div>
       </div>
     </div>
   </div>
 
   <div class="about">
     <div class="about-label">About</div>
-    <p>Engineer by trade. Flies paragliders, skis and runs mountains, writes about both. Yet, family comes first.</p>
+    <div id="about-content" data-md="content/about.md"></div>
   </div>
 
   <footer>&copy; <span id="year"></span> Vasilis Besikiotis</footer>
@@ -238,9 +231,28 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
-  function toggleItem(row){
-    row.parentElement.classList.toggle('open');
+
+  async function loadMarkdown(el){
+    if (el.dataset.loaded) return;
+    try {
+      const res = await fetch(el.dataset.md);
+      const text = await res.text();
+      el.innerHTML = marked.parse(text);
+      el.dataset.loaded = "true";
+    } catch (e) {
+      el.innerHTML = "<p><em>Couldn't load content.</em></p>";
+    }
   }
+
+  function toggleItem(row){
+    const item = row.parentElement;
+    item.classList.toggle('open');
+    const detail = item.querySelector('[data-md]');
+    if (item.classList.contains('open') && detail) loadMarkdown(detail);
+  }
+
+  // load About immediately since it's always visible
+  loadMarkdown(document.getElementById('about-content'));
 </script>
 </body>
 </html>
