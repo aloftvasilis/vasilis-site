@@ -6,7 +6,7 @@
 <title>Kilo Lapse</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg: #F5EEE1;
@@ -55,7 +55,8 @@
   .register{ margin-top: 28px; }
   .register-head{
     display:flex;
-    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
     color: var(--ink-soft);
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -101,7 +102,8 @@
     margin-top: 3px;
   }
   .status-pill{
-    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
     font-weight: 600;
     padding: 4px 10px;
     border-radius: 999px;
@@ -232,7 +234,7 @@
   async function loadMarkdown(el){
     if (el.dataset.loaded) return;
     try {
-      const res = await fetch(el.dataset.md);
+      const res = await fetch(el.dataset.md, { cache: 'no-store' });
       const text = await res.text();
       el.innerHTML = marked.parse(text);
       el.dataset.loaded = "true";
