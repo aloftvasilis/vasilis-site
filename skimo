@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skimo in Greece &mdash; Kilo Lapse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
+<style>
+  :root{
+    --bg: #F5EEE1;
+    --bg-2: #EDE2CC;
+    --ink: #2E2418;
+    --ink-soft: #7A6C56;
+    --accent: #B8752E;
+    --max: 640px;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin: 0;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, var(--bg-2), transparent),
+      var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    padding: 44px 18px 80px;
+  }
+  .wrap{ max-width: var(--max); margin: 0 auto; }
+  .back{
+    display:inline-block;
+    font-size: 0.9rem;
+    color: var(--accent);
+    text-decoration: none;
+    margin-bottom: 28px;
+  }
+  .back:hover{ text-decoration: underline; }
+  h1{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.9rem;
+    margin: 0 0 8px;
+  }
+  .meta{
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+  }
+  #content p{ margin: 0 0 18px; max-width: 62ch; }
+  #content h2{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.3rem;
+    margin: 36px 0 12px;
+  }
+  #content img{
+    width: 100%;
+    border-radius: 12px;
+    margin: 20px 0;
+    display: block;
+  }
+  #content a{ color: var(--accent); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="index.html" class="back">&larr; Back</a>
+  <h1>Skimo in Greece</h1>
+  <div class="meta">Long-form guide &mdash; in progress</div>
+  <div id="content">Loading&hellip;</div>
+</div>
+
+<script>
+  fetch('content/skimo.md', { cache: 'no-store' })
+    .then(res => res.text())
+    .then(text => {
+      document.getElementById('content').innerHTML = marked.parse(text);
+    })
+    .catch(() => {
+      document.getElementById('content').innerHTML = "<p><em>Couldn't load content.</em></p>";
+    });
+</script>
+</body>
+</html>
